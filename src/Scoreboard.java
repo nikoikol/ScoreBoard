@@ -1,21 +1,29 @@
 public class Scoreboard {
-    private String team1;
-    private String team2;
-    private boolean x;
-    private int team1score;
-    private int team2score;
-    public Scoreboard(String team1, String team2){
-        this.team1 = team1;
-        this.team2 = team2;
-    }
-    public void recordPlay(int points) {
-        if (points > 0)
-            if (x) team2score += points;
-            else team1score += points;
-        else x = !x;
+    private String teamOne;
+    private String teamTwo;
+    private int teamOneScore;
+    private int teamTwoScore;
+    private String activeTeam;
+    public Scoreboard(String one, String two){
+        teamOne = one;
+        teamTwo = two;
+        activeTeam = teamOne;
     }
     public String getScore(){
-        if (x) return team1score + "-" + team2score + " " + team2;
-        else return (team1score + "-" + team2score + " " + team1);
+        return teamOneScore + "_" + teamTwoScore + "_" + activeTeam;
     }
+    public void recordPlay(int score){
+        if(teamOne.equals(activeTeam))
+            teamOneScore += score;
+        if(score == 0) {
+            if (activeTeam.equals(teamOne)) activeTeam = teamTwo;
+            else if(activeTeam.equals(teamTwo)) activeTeam = teamOne;
+        }
+    }
+    public String win() {
+        if (teamOneScore > teamTwoScore) return teamOne;
+        if (teamOneScore < teamTwoScore) return teamTwo;
+        return "DRAW";
+    }
+
 }
